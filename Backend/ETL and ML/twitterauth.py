@@ -1,7 +1,7 @@
 # Import the Python Library for Twitter-API.
 import tweepy
 
-
+# Get the authentication keys:
 
 api_key = "UQazeKSxbwRnLXlDJiie8NBSD"
 api_secret = "uziW5pJKvxSVPSCReOp2XiLsv5M37BjfumgOQhKxkbCiejXGB2"
