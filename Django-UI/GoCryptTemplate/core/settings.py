@@ -2,8 +2,8 @@
 """
 Copyright (c) 2022 - present GoCrypt
 """
-
-
+import tensorflow as tf
+import keras
 
 import os
 from decouple import config
@@ -31,7 +31,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.home'  # Enable the inner home (home)
+    'apps.home',  # Enable the inner home (home)
+    'users',
+    'password_reset',
+    'crispy_forms',
+    'pb_model',
+
+    
 ]
 
 MIDDLEWARE = [
@@ -125,3 +131,10 @@ STATICFILES_DIRS = (
 
 #############################################################
 #############################################################
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'gocryptfyp@gmail.com'
+EMAIL_HOST_PASSWORD = 'wbszswyylleqwqsl'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

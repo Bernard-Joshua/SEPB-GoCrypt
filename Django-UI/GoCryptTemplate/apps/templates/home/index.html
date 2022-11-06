@@ -2,60 +2,61 @@
 
 {% block title %} Dashboard {% endblock %} 
 
-<!-- Specific Page CSS goes HERE  -->
 {% block stylesheets %}{% endblock stylesheets %}
 
 {% block content %}
 
-   <div class="row">
-      <div class="col-12">
-        <div class="card card-chart">
-          <div class="card-header card-header-success">
-              <div>
-                <h3 class="card-title">Welcome, Aztoricalz!</h3>
-                <script src="https://cointelegraph.com/news-widget" 
-                data-ct-widget-limit="10" 
-                data-ct-widget-theme="light" 
-                data-ct-widget-priceindex="true" 
-                data-ct-widget-images="true" 
-                data-ct-widget-currency="USD" 
-                data-ct-widget-category="bitcoin,ethereum,polkadot,cardano,bitcoin-regulation" 
-                data-ct-widget-language="en">
-                </script>
-              </div>
-            </div>
-          <div class="card-body">
+<div class="row">
+  <div class="col-12">
+    <div class="card-title">
+      <div class="card-header pre-scrollable">
+        <h3><b>Welcome {{ user.get_username }}!</b></h3>
             <h6 class="card-title">Daily news article</h6>
-          </div>
-          <div class="card-footer">
-            <div class="stats">
-              <i class="material-icons">access_time</i> updated 4 minutes ago
+                {% for x in api.Data %}
+                <div class="row">
+                  <div class="col-xl-2">
+                    <div class="bg-image hover-overlay ripple shadow-2-strong rounded-5" data-mdb-ripple-color="light">
+                      <img src="{{ x.imageurl }}" alt="{{ x.source }}" class="img-fluid" />
+                      <a href="{{ x.url }}">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                      </a>
+                    </div>
+                  </div>
+                
+                  <div class="col-xl-6 mb-4">
+                    <span class="badge bg-danger px-2 py-1 shadow-1-strong mb-3">News of the day</span>
+                    <h4><strong>{{ x.title }}</strong></h4>
+                    <p class="text-muted">
+                      {{ x.body|slice:"420" }}...
+                    </p>
+                    <a href="{{ x.url }}" target="_blank" ><button type="button" class="btn btn-primary" >Read more</button></a>
+                  </div>
+                </div>
+                <hr>
+                {% endfor %}
+              </div>
+              <div class="card-footer">
+                <div class="stats">
+                  <i class="material-icons">access_time</i> Live updates
+                </div>
             </div>
-          </div>
         </div>
       </div>
+      
       <div class="col-sm">
         <div class="card card-stats">
           <div class="card-header card-header-warning card-header-icon">
             <div class="card-icon">
-              <div style="width: 250px; height:220px; background-color: #FFFFFF; overflow:hidden; box-sizing: border-box; border: 1px solid #56667F; border-radius: 4px; text-align: right; line-height:14px; block-size:220px; font-size: 12px; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #56667F;padding:1px;padding: 0px; margin: 0px;">
-                <div style="height:220px; padding:0px; margin:0px; width: 100%;">
-                  <iframe src="https://widget.coinlib.io/widget?type=single_v2&theme=light&coin_id=859&pref_coin_id=1505" 
-                  title="bitcoin_graph" width="250" height="200px" style="border:0;margin:0;padding:0;line-height:14px;">
-                  </iframe>
-                  </div>
-                  <div style="color: #FFFFFF; line-height: 14px; font-weight: 400; font-size: 11px; box-sizing: border-box; padding: 2px 6px; width: 100%; font-family: Verdana, Tahoma, Arial, sans-serif;">
-                    <a href="/" target="_blank" style="font-weight: 500; color: #FFFFFF; text-decoration:none; font-size:11px"></a>
-                </div>
-              </div>
+              <script src="https://widgets.coingecko.com/div/coingecko-coin-price-chart-widget-div.js"></script>
+              <coingecko-coin-price-chart-widget  coin-id="bitcoin" currency="usd" height="300" width="600" locale="en"></coingecko-coin-price-chart-widget>
             </div>
             <h3 class="card-title">Bitcoin</h3>
             <p class="card-category">Daily BTC Statistics</p>
-            <button type="button" class="btn btn-success" >Buy</button>
+            <button type="button" class="btn btn-success">Buy</button>
           </div>
           <div class="card-footer">
             <div class="stats">
-              <i class="material-icons">access_time</i> updated 4 minutes ago
+              <i class="material-icons">access_time</i> Live updates
             </div>
           </div>
         </div>
@@ -64,16 +65,8 @@
         <div class="card card-stats">
           <div class="card-header card-header-success card-header-icon">
             <div class="card-icon">
-              <div style="width: 250px; height:220px; background-color: #FFFFFF; overflow:hidden; box-sizing: border-box; border: 1px solid #56667F; border-radius: 4px; text-align: right; line-height:14px; block-size:220px; font-size: 12px; font-feature-settings: normal; text-size-adjust: 100%; box-shadow: inset 0 -20px 0 0 #56667F;padding:1px;padding: 0px; margin: 0px;">
-                <div style="height:200px; padding:0px; margin:0px; width: 100%;">
-                  <iframe src="https://widget.coinlib.io/widget?type=single_v2&theme=light&coin_id=145&pref_coin_id=1505" 
-                  title="ethereum_graph" width="250" height="196px"  style="border:0;margin:0;padding:0;line-height:14px;">
-                </iframe>
-                </div>
-                  <div style="color: #FFFFFF; line-height: 14px; font-weight: 400; font-size: 11px; box-sizing: border-box; padding: 2px 6px; width: 100%; font-family: Verdana, Tahoma, Arial, sans-serif;">
-                    <a href="https://coinlib.io" target="_blank" style="font-weight: 500; color: #FFFFFF; text-decoration:none; font-size:11px"></a>
-                  </div>
-                </div>
+              <script src="https://widgets.coingecko.com/coingecko-coin-price-chart-widget.js"></script>
+              <coingecko-coin-price-chart-widget  coin-id="ethereum" currency="usd" height="300" width="600" locale="en"></coingecko-coin-price-chart-widget>
             </div>
             <h3 class="card-title">Ethereum</h3>
             <p class="card-category">Daily ETH Statistics</p>
@@ -81,11 +74,12 @@
           </div>
           <div class="card-footer">
             <div class="stats">
-              <i class="material-icons">access_time</i> updated 4 minutes ago
+              <i class="material-icons">access_time</i> Live updates
             </div>
           </div>
         </div>
       </div>
     </div>
-
+  </div>
+</div>
 {% endblock content %}

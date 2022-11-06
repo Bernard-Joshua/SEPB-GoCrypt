@@ -1,0 +1,75 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Crypto {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %} {% endblock stylesheets %}
+
+{% block content %}
+
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header card-header-primary"><h3 class="card-title "> {{ name }}</h3></div>
+      <div class="card-body">
+        <div class="cryptodetails" id="cryptodetails">
+          <div class="row">
+            
+            <div class="col-lg-6">
+                {% for i in apidata %}
+                <img src="{{i.image}}" alt="crypto-logo"/>
+                <h3 class="h3-inline">{{i.name}} | {{i.symbol|upper}}<br>${{i.current_price}}</h3>
+                <h4 class="h4-inline"><b>24H</b> {{i.price_change_percentage_24h}}%<br><b>24H Low</b> ${{i.low_24h}} <br> <b>24H High</b> ${{i.high_24h}}</h4>
+                {% endfor %} 
+            </div>
+
+            <div class="col-lg-6">
+              <h3 class="h3-prediction font-weight-bold">prediction rate</h3>
+            </div>
+            <div class="col-lg-12">
+              <hr>
+              <td>
+                <form class="bttn-inline" action="{%url 'cryptodetails' id %}" method="POST">
+                  {% csrf_token %}
+                  <input type="submit" value="Graph" class='btn btn-primary'>
+                </form>
+                  <form class="bttn-inline" action="{%url 'forecast' id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="Forecast" class='btn btn-primary'>
+                    <hr>
+                  </form></td>
+              <hr>
+            </div>
+          </div>
+          <div class="row">
+            {% for i in apidata %}
+               <div class="col-lg-6">
+                  <h4 class="prediction-output font-weight-bold">Current Price: ${{i.current_price}}</h4>
+              </div>
+
+              <div class="col-lg-6">
+                  <h4 class="prediction-output font-weight-bold">Target: ${{i.current_price}}</h4>
+              </div>
+
+              <div class="col-lg-6">
+                  <h4 class="prediction-output font-weight-bold">Prediction: 123%</h4>
+              </div>
+        
+              <div class="col-lg-6">
+                  <h4 class="prediction-output font-weight-bold">Rating: BUY</h4>
+              </div>
+            {% endfor %}
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}
