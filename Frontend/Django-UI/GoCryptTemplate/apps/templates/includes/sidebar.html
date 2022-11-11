@@ -1,38 +1,33 @@
     <div class="sidebar" data-color="orange" data-background-color="white">
       <div class="logo">
-        <a target="_blank" rel="noopener noreferrer" href="/index.html" class="simple-text"  data-image="/static/assets/img/gc-logo.png">
+        <a rel="noopener noreferrer" href="/index.html" class="simple-text"  data-image="/static/assets/img/gc-logo.png">
           <h2 style="font-weight:600">GoCrypt</h2>
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
+          
+        <!-- If user is not login sidebar will not be visible  --> 
         {% if request.user.is_authenticated %}
 
-          <li class="nav-item {% if 'index' in segment %} active {% endif %}">
+          <li class="nav-item {% if 'index' in segment %}  {% endif %}">
             <a class="nav-link" href="/index.html">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
             </a>
           </li>
-          <li class="nav-item {% if 'page-user' in segment %} active {% endif %}">
-            <a class="nav-link" href="/page-user.html">
-              <i class="material-icons">person</i>
+          <li class="nav-item {% if 'market' in segment %}  {% endif %}">
+            <a class="nav-link" href="/market.html">
+              <i class="material-icons">storefront</i>
               <p>Market</p>
             </a>
           </li>
-          <li class="nav-item {% if 'ui-tables' in segment %} active {% endif %}">
-            <a class="nav-link" href="/ui-tables.html">
-              <i class="material-icons">content_paste</i>
+          <li class="nav-item {% if 'portfolio' in segment %}  {% endif %}">
+            <a class="nav-link" href="/portfolio.html">
+              <i class="material-icons">list_alt</i>
               <p>Portfolio</p>
             </a>
           </li>
-          <li class="nav-item {% if 'ui-notifications' in segment %} active {% endif %}">
-            <a class="nav-link" href="/ui-notifications.html">
-              <i class="material-icons">notifications</i>
-              <p>Notifications</p>
-            </a>
-          </li>
-
           <li class="nav-item ">
             <a class="nav-link" href="{% url 'logout' %}" >
               <i class="material-icons">directions_run</i>

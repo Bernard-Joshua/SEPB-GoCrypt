@@ -1,0 +1,92 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Market {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header card-header-primary">
+      <h4 class="card-title ">Cryptos </h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="market">
+          <thead class=" text-primary">
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Market</th>
+              <th scope="col">Name</th>
+              <th scope="col">Current Price</th>
+              <th scope="col">Price Change 24H ($)</th>
+              <th scope="col">Price Change 24H (%)</th>
+              <th scope="col">Market Cap</th>
+              <th scope="col">Last Updated</th>
+              <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody id="market"> 
+              {% for i in apidata %}
+              <tr>
+                <td>#{{i.market_cap_rank}}</td>
+                <td><img src="{{i.image}}" alt="crypto logo"/></td>
+                <td>{{i.name}}<p>{{i.symbol|upper}}</p></td>
+                <td>${{i.current_price}}</td>
+                <td>${{i.price_change_24h|floatformat:6 }}</td>
+                <td>{{i.price_change_percentage_24h}}%</td>
+                <td>${{i.market_cap}}</td>
+                <td>{{i.last_updated|slice:":10"}}</td>  
+                <td><form id='cryptodetails' action="{%url 'cryptodetails' id=i.id %}" method="POST">
+                    {% csrf_token %}
+                    <input type="submit" value="View Detail" class='btn btn-primary'>
+                  </form></td>
+                <td>
+                  <form><a href="{% url 'checkinfavourites' i.id %}" class="favourite" role="button">
+                    {% for a in favarray %}
+                      {% if a.id == i.id %}
+                        {% if a.favourite == False %}
+                          <i class="fa fa-star-o" aria-hidden="true"></i>
+                          {% else %}
+                          <i class="fa fa-star" aria-hidden="true"></i>
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %} 
+                  </a></form>
+                </td>
+              </tr>
+              {% endfor %} 
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Script to call function for favourite button and prevent refreshing  -->
+<script type="text/javascript">
+ $('.favourite').click(function (e) {
+    console.log($(this).attr('href'))
+    var _this = $(this);
+    e.preventDefault();
+    $.ajax({
+        type: "GET",
+        url: $(this).attr('href'),
+        data:{
+            post_id: _this.attr('post_id')
+        },
+        success: function (json) {
+            if (json.isFavourite == true){
+                icon = _this.find("i");
+                icon.toggleClass("fa-star fa-star-o");
+            }
+            else{
+                icon = _this.find("i");
+                icon.toggleClass("fa-star-o fa-star");
+            }
+        }
+    });
+});
+</script>
+{% endblock content %}

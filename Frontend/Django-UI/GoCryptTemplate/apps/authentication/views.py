@@ -4,11 +4,30 @@ Copyright (c) 2022 - present GoCrypt
 """
 
 # Create your views here.
+from urllib import request
+import json
+import requests
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
+from django.conf import settings
+from django.views import View
 from .forms import LoginForm, SignUpForm
+from django.urls import reverse_lazy
+from django.contrib.auth.views import PasswordResetView, PasswordChangeView
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 
+#  Login function to authenticate existing users
 def login_view(request):
     form = LoginForm(request.POST or None)
 
@@ -30,7 +49,7 @@ def login_view(request):
 
     return render(request, "accounts/login.html", {"form": form, "msg": msg})
 
-
+#  Register form function for new users
 def register_user(request):
     msg = None
     success = False
@@ -46,11 +65,45 @@ def register_user(request):
             msg = 'User created - please <a href="/login">login</a>.'
             success = True
 
-            # return redirect("/login/")
-
         else:
             msg = 'Form is not valid'
     else:
         form = SignUpForm()
+        
 
     return render(request, "accounts/register.html", {"form": form, "msg": msg, "success": success})
+
+#  Password reset function for user's to reset password by sending a link to user's registered email
+def password_reset_request(request):
+    if request.method == 'POST':
+        password_form = PasswordResetForm(request.POST)
+        if password_form.is_valid():
+            data = password_form.cleaned_data['email']
+            user_email = User.objects.filter(Q(email=data))
+            if user_email.exists():
+                for user in user_email:
+                    subject = 'Password Request'
+                    email_template_name = 'home/password_reset_subject.txt'
+                    parameters = {
+                        'email' : user.email,
+                        'domain' : '127.0.0.1:8000',
+                        'site_name' : 'GoCrypt',
+                        'uid' : urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token' : default_token_generator.make_token(user),
+                        'protocol' : 'http',
+
+                    }
+                    email = render_to_string(email_template_name, parameters)
+                    try:
+                        send_mail(subject, email, '', [user.email], fail_silently=False)
+                    except:
+                        return HttpResponse('Invalid Header')   
+                    return redirect('password_reset_email')
+    else:
+        password_form = PasswordResetForm()
+    context= {
+        'password_form' : password_form,
+    }
+    return render(request, 'home/password_reset.html', context)
+
+

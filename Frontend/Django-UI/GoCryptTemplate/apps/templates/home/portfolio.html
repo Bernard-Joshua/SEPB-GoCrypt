@@ -1,0 +1,67 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Portfolio {% endblock %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+        <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header card-header-primary">
+                  <h4 class="card-title ">Portfolio</h4>
+                  <p class="card-category"> Favourite Cryptocurrency</p>
+                </div>
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="market">
+                      <thead class=" text-primary">
+                        <tr>
+                          <th scope="col">Rank</th>
+                          <th scope="col">Market</th>
+                          <th scope="col">Name</th>
+                          <th scope="col">Current Price</th>
+                          <th scope="col">Price Change 24H ($)</th>
+                          <th scope="col">Price Change 24H (%)</th>
+                          <th scope="col">Market Cap</th>
+                          <th scope="col">Last Updated</th>
+                          <th scope="col"></th>
+                      </tr>
+                      </thead>
+                      <tbody id="market"> 
+                        {% for i in apidata %}
+                          {% for a in favarray %}
+                            {% if a.name == user.username %}
+                              {% if a.crypto == i.id %}
+                              <tr>
+                                <td>#{{i.market_cap_rank}}</td>
+                                <td> <img src="{{i.image}}" alt="crypto logo"/></td>
+                                <td>{{i.name}}<p>{{i.symbol|upper}}</p></td>
+                                <td>${{i.current_price}}</td>
+                                <td>${{i.price_change_24h|floatformat:6}}</td>
+                                <td>{{i.price_change_percentage_24h}}%</td>
+                                <td>${{i.market_cap}}</td>
+                                <td>{{i.last_updated|slice:":10"}}</td> 
+                                  <td><form id='cryptodetails' action="{%url 'cryptodetails' id=i.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="submit" value="View Detail" class='btn btn-primary'>
+                                  </form></td>
+                              </tr>
+                              {% endif %}  
+                            {% endif %}  
+                          {% endfor %} 
+                        {% endfor %} 
+                    </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
