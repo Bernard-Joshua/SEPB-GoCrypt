@@ -1,0 +1,63 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Crypto {% endblock %}
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %} {% endblock stylesheets %}
+
+{% block content %}
+<div class="col-md-12">
+  <div class="card">
+    <div class="card-header card-header-primary"><h3 class="card-title "> {{ name }}</h3></div>
+      <div class="card-body">
+        <div class="cryptodetails" id="cryptodetails">
+          <div class="row">
+            
+            <div class="col-lg-8">
+                {% for i in apidata %}
+                <img src="{{i.image}}" alt="crypto-logo"/>
+                <h3 class="h3-inline">{{i.name}} | {{i.symbol|upper}}<br>Current Price: ${{i.current_price}}<br>Predicted Closing Price: ${{LSTM}}</h3>
+                <h3 class="h3-inlineblock"><b>24H</b> {{i.price_change_percentage_24h}}%<br><b>24H Low</b> ${{i.low_24h}} <br> <b>24H High</b> ${{i.high_24h}}</h4>
+                {% endfor %} 
+            </div>
+
+            
+            <div class="col-lg-4">
+              <div class="h3-prediction"> 
+                <h3 style="margin: 0">Sentimental Value</h3> 
+                <h5 style="margin: 0">Positive: {{ SAPrediction.2|floatformat:'0' }}</h5> 
+                <h5 style="margin: 0">Neutral: {{ SAPrediction.1|floatformat:'0' }}</h5> 
+                <h5 style="margin: 0">Negative: {{ SAPrediction.0|floatformat:'0' }}</h5>
+              </div>
+            </div>
+            <div class="col-lg-12">
+              <hr>
+              <h3><b>Market Graph</b></h3>
+            </div>
+          </div>
+
+            <div class="col-md-12">
+              <script src="https://widgets.coingecko.com/coingecko-coin-compare-chart-widget.js"></script>
+              <coingecko-coin-compare-chart-widget  coin-ids="{{id}}" currency="usd" locale="en"></coingecko-coin-compare-chart-widget>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Script to prevent confirm form resubmission  -->
+<script>
+if ( window.history.replaceState ) {
+  window.history.replaceState( null, null, window.location.href );
+}
+</script>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+{% endblock javascripts %}
