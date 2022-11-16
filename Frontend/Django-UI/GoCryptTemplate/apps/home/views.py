@@ -150,7 +150,6 @@ def news(request):
 	return render(request, 'home/index.html', {'api': api,})
 
 # To check if crypto has been added to favourite in database by user.
-@login_required
 def checkinfavourites(request, crypto):
     favlist = FavList()
     username = request.user.__str__()
