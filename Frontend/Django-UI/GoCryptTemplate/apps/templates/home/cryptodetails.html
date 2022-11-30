@@ -8,26 +8,26 @@
 {% block content %}
 <div class="col-md-12">
   <div class="card">
-    <div class="card-header card-header-primary"><h3 class="card-title "> {{ name }}</h3></div>
+    <div class="card-header card-header-primary"><h3 style="font-weight:600" class="card-title "> {% for i in apidata %} {{ i.name }}</h3></div>
       <div class="card-body">
         <div class="cryptodetails" id="cryptodetails">
           <div class="row">
             
             <div class="col-lg-8">
-                {% for i in apidata %}
+                
                 <img src="{{i.image}}" alt="crypto-logo"/>
                 <h3 class="h3-inline">{{i.name}} | {{i.symbol|upper}}<br>Current Price: ${{i.current_price}}<br>Predicted Closing Price: ${{LSTM}}</h3>
-                <h3 class="h3-inlineblock"><b>24H</b> {{i.price_change_percentage_24h}}%<br><b>24H Low</b> ${{i.low_24h}} <br> <b>24H High</b> ${{i.high_24h}}</h4>
+                <h3 class="h3-inlineblock">24H {{i.price_change_percentage_24h}}%<br>24H Low</b> ${{i.low_24h}} <br> 24H High ${{i.high_24h}}</h4>
                 {% endfor %} 
             </div>
 
             
             <div class="col-lg-4">
-              <div class="h3-prediction"> 
-                <h3 style="margin: 0">Sentimental Value</h3> 
-                <h5 style="margin: 0">Positive: {{ SAPrediction.2|floatformat:'0' }}</h5> 
-                <h5 style="margin: 0">Neutral: {{ SAPrediction.1|floatformat:'0' }}</h5> 
-                <h5 style="margin: 0">Negative: {{ SAPrediction.0|floatformat:'0' }}</h5>
+              <div class="h3-prediction1 "> 
+                <h3 style="margin: 0" class="neutral">Sentiment</h3> 
+                <h5 style="margin: 0" class="green">Positive: {{ SAPrediction.2|floatformat:'0' }}</h5> 
+                <h5 style="margin: 0" class="orange">Neutral: {{ SAPrediction.1|floatformat:'0' }}</h5> 
+                <h5 style="margin: 0" class="red">Negative: {{ SAPrediction.0|floatformat:'0' }}</h5>
               </div>
             </div>
             <div class="col-lg-12">

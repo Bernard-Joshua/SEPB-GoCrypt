@@ -96,18 +96,18 @@ def cryptocoin(request, id):
 
     # LSTM Codes
     targetCryptoLSTM = "{}-USD".format(symbol).upper()
-    # CREATE TICKER INSTANCE FOR AMAZON
-    df = []
-    btc = yf.Ticker(targetCryptoLSTM)
+    # create ticker for crypto
+    df1 = []
+    crypto = yf.Ticker(targetCryptoLSTM)
 
     # GET TODAYS DATE AND CONVERT IT TO A STRING WITH YYYY-MM-DD FORMAT (YFINANCE EXPECTS THAT FORMAT).
-    yfdata = btc.history(start=(dt.date.today() - dt.timedelta(days=7)).strftime('%Y-%m-%d'), end=dt.datetime.today().strftime('%Y-%m-%d'))
+    yfdata = crypto.history(start=(dt.date.today() - dt.timedelta(days=7)).strftime('%Y-%m-%d'), end=dt.datetime.today().strftime('%Y-%m-%d'))
     yfdatalist = yfdata.values.tolist()
     
     for i in yfdatalist:
         # Store High Low CLose for each day in a 2 dimensional array.
         HLC = [i[1], i[2], i[3]]
-        df.append(HLC)
+        df1.append(HLC)
         # Loop through the whole array and get the last closing price for scaler reference.
         lastClosing = [i[3]]
 
@@ -130,7 +130,7 @@ def cryptocoin(request, id):
     inverse_scaler = MinMaxScaler()
 
     # Reshape both arrays to fit into the model.
-    df_scaled = scaler.fit_transform(df, (1,-1))
+    df_scaled = scaler.fit_transform(df1, (1,-1))
     df_scaled = df_scaled.reshape(1,7,3)
 
     lastClosingNP = np.array(lastClosing)
