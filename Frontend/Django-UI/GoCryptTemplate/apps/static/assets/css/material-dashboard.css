@@ -19386,10 +19386,21 @@ Copyright (c) 2015 Daniel Eden
 
 .green {
   color: green;
+  font-weight: bold;
+}
+
+.neutral {
+  color: black;
+}
+
+.orange {
+  color: orange; 
+  font-weight: bold;
 }
 
 .red {
   color: red;
+  font-weight: bold;
 }
 
 .h3-prediction {
@@ -19397,6 +19408,18 @@ Copyright (c) 2015 Daniel Eden
   color: #ffffff;
   background-color: #4caf50;
   border-color: #4caf50;
+  box-shadow: none;
+  padding: 20px; 
+  max-width: 100%;
+  height: auto;
+  margin: 2%;
+  float: right;
+  font-size: calc(0.5rem + 1vw);
+}
+
+.h3-prediction1 {
+  border-radius: 25px;
+  color: #ffffff;
   box-shadow: none;
   padding: 20px; 
   max-width: 100%;
